@@ -4,9 +4,9 @@ import { Heart, X } from "lucide-react"
 
 export default function MessageCard() {
   return (
-    <div className="h-full px-4 pt-20 flex justify-center">
+    <div className="h-full px-4 pt-20 flex justify-center fixed">
       
-      <div className="w-full max-w-sm flex flex-col items-center gap-8">
+      <div className="w-full max-w-sm flex flex-col items-center gap-8 mt-10">
 
         {/* CARD */}
         <div
