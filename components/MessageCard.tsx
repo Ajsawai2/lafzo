@@ -7,7 +7,7 @@ export default function MessageCard() {
    <div className="min-h-screen px-4 pt-24 pb-32 flex justify-center ">
 
       
-      <div className="w-full max-w-sm flex flex-col items-center gap-8 fixed mt-1">
+      <div className="w-full max-w-sm flex flex-col items-center gap-8 ">
 
         {/* CARD */}
         <div
@@ -21,8 +21,7 @@ export default function MessageCard() {
             shadow-[inset_0_0_8px_rgba(255,255,255,0.05)]
             px-5 py-4
             flex flex-col
-            
-          
+            mt-5
           "
         >
           <div className="text-right text-sm text-gray-400 mb-2 shrink-0">
