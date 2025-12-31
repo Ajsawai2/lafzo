@@ -3,7 +3,9 @@
 import { Heart, X } from "lucide-react"
 import { useEffect, useState } from "react"
 import Lottie from "lottie-react"
+
 import heartAnimation from "@/public/animations/heart.json"
+import skipAnimation from "@/public/animations/skip.json"
 
 const messages = [
   {
@@ -27,27 +29,29 @@ export default function MessageCard() {
   const [index, setIndex] = useState(0)
   const [revealed, setRevealed] = useState(false)
   const [canDecide, setCanDecide] = useState(false)
-  const [playAnim, setPlayAnim] = useState(false)
+  const [playLike, setPlayLike] = useState(false)
+  const [playSkip, setPlaySkip] = useState(false)
 
   const message = messages[index]
 
-  // reading pause
+  // Reading pause
   useEffect(() => {
     if (!revealed) return
-    const timer = setTimeout(() => setCanDecide(true), 5000)
-    return () => clearTimeout(timer)
+    const t = setTimeout(() => setCanDecide(true), 5000)
+    return () => clearTimeout(t)
   }, [revealed])
 
   const nextCard = () => {
     setRevealed(false)
     setCanDecide(false)
-    setPlayAnim(false)
+    setPlayLike(false)
+    setPlaySkip(false)
     setIndex((i) => (i + 1) % messages.length)
   }
 
   const handleLike = () => {
     if (!canDecide) return
-    setPlayAnim(true)
+    setPlayLike(true)
 
     setTimeout(() => {
       nextCard()
@@ -56,17 +60,31 @@ export default function MessageCard() {
 
   const handleSkip = () => {
     if (!canDecide) return
-    nextCard()
+    setPlaySkip(true)
+
+    setTimeout(() => {
+      nextCard()
+    }, 700)
   }
 
   return (
-    <div className="h-screen overflow-hidden flex items-center justify-center px-4 pb-28 relative">
+   <div className="h-screen overflow-hidden flex items-start justify-center px-4 pt-10 pb-28 relative">
 
-      {/* LOTTIE HEART ANIMATION */}
-      {playAnim && (
+
+      {/* ❤️ LIKE ANIMATION */}
+      {playLike && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
           <div className="w-40 h-40">
             <Lottie animationData={heartAnimation} loop={false} />
+          </div>
+        </div>
+      )}
+
+      {/* ❌ SKIP ANIMATION */}
+      {playSkip && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+          <div className="w-32 h-32 opacity-70">
+            <Lottie animationData={skipAnimation} loop={false} />
           </div>
         </div>
       )}
@@ -89,12 +107,10 @@ export default function MessageCard() {
             ${!revealed ? "cursor-pointer" : ""}
           `}
         >
-          {/* USER */}
           <div className="text-right text-sm text-white/50 mb-2">
             {message.user}
           </div>
 
-          {/* MESSAGE */}
           <div
             className={`
               flex-1 overflow-y-auto
