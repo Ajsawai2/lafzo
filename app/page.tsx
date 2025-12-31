@@ -2,8 +2,8 @@ import MessageCard from "@/components/MessageCard"
 
 export default function Home() {
   return (
-    <div className="flex items-center justify-center min-h-[calc(100vh-7rem)]">
+    <main className="pt-20 pb-32 px-4">
       <MessageCard />
-    </div>
+    </main>
   )
 }
