@@ -128,3 +128,37 @@ body {
   color: #c4b5fd;
 }
 
+.privacy-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+
+  padding: 18px;
+  border-radius: 16px;
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.privacy-select {
+  background: rgba(255, 255, 255, 0.05);
+  border: none;
+  border-radius: 12px;
+  padding: 8px 12px;
+  color: white;
+}
+
+.privacy-toggle {
+  width: 42px;
+  height: 22px;
+  accent-color: #c4b5fd;
+}
+
+.light {
+  background-color: white;
+  color: black;
+}
+
