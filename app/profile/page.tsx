@@ -1,8 +1,9 @@
 "use client"
 
-import { Pencil, Lock, Sun, Moon } from "lucide-react"
+import {Gift, Pencil, Lock, Sun, Moon } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+
 
 export default function ProfilePage() {
   const [theme, setTheme] = useState<"dark" | "light">("dark")
@@ -91,33 +92,13 @@ export default function ProfilePage() {
         </Link>
 
         {/* THEME TOGGLE */}
-        <SettingItem
-          label="Theme"
-          icon={
-            theme === "dark"
-              ? <Moon size={18} />
-              : <Sun size={18} />
-          }
-          action={
-            <button
-              onClick={() =>
-                setTheme(theme === "dark" ? "light" : "dark")
-              }
-              className="
-                w-14 h-8 rounded-full
-                bg-white/10 flex items-center px-1
-              "
-            >
-              <span
-                className={`
-                  w-6 h-6 rounded-full bg-[#C4B5FD]
-                  transition-transform
-                  ${theme === "light" ? "translate-x-6" : ""}
-                `}
-              />
-            </button>
-          }
-        />
+       <Link href="/rewards">
+  <SettingItem
+    label="Rewards"
+    icon={<Gift size={18} className="text-[#C4B5FD]" />}
+  />
+</Link>
+
 
         {/* SIGN OUT */}
         <SettingItem label="Sign Out" danger />
