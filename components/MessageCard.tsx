@@ -40,7 +40,7 @@ export default function MessageCard() {
 
   useEffect(() => {
     if (!revealed) return
-    const t = setTimeout(() => setCanDecide(true), 5000)
+    const t = setTimeout(() => setCanDecide(true), 2000)
     return () => clearTimeout(t)
   }, [revealed])
 

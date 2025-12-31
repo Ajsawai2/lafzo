@@ -1,7 +1,8 @@
 "use client"
 
 import Image from "next/image"
-import { Settings } from "lucide-react"
+import Link from "next/link"
+import { Gift } from "lucide-react"
 
 export default function TopBar() {
   return (
@@ -16,19 +17,31 @@ export default function TopBar() {
         z-50
       "
     >
-      {/* LEFT: LOGO (≈40% BIGGER) */}
+      {/* LEFT: LOGO */}
       <Image
         src="/LOGO.png"
         alt="Lafzo"
-        width={32}      /* ~40% bigger than 22 */
+        width={32}
         height={32}
         priority
+        className="drop-shadow-[0_0_14px_rgba(168,139,255,0.7)]"
       />
 
-      {/* RIGHT: SETTINGS ICON (≈40% BIGGER) */}
-      <button className="text-white">
-        <Settings size={28} />   {/* ~40% bigger */}
-      </button>
+      {/* RIGHT: REWARDS ICON (NO BG) */}
+      <Link href="/rewards" className="relative">
+        <Gift
+          size={28}
+          className="
+            text-[#C4B5FD]
+            drop-shadow-[0_0_16px_rgba(196,181,253,1)]
+            hover:scale-110
+            transition
+          "
+        />
+
+        {/* optional tiny indicator */}
+        <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-pink-500" />
+      </Link>
     </header>
   )
 }
