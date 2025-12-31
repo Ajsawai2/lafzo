@@ -1,63 +1,162 @@
 "use client"
 
 import { Heart, X } from "lucide-react"
+import { useEffect, useState } from "react"
+import Lottie from "lottie-react"
+import heartAnimation from "@/public/animations/heart.json"
+
+const messages = [
+  {
+    user: "@silent_reader",
+    text: `कभी-कभी खामोशी भी
+बहुत कुछ कह जाती है।`
+  },
+  {
+    user: "@midnight_writer",
+    text: `मैं भीड़ में रहता हूँ
+लेकिन दिल अकेला है।`
+  },
+  {
+    user: "@lost_poet",
+    text: `लफ़्ज़ कम हैं
+पर एहसास पूरे।`
+  }
+]
 
 export default function MessageCard() {
-  return (
-   <div className="min-h-screen px-4 pt-24 pb-32 flex justify-center ">
+  const [index, setIndex] = useState(0)
+  const [revealed, setRevealed] = useState(false)
+  const [canDecide, setCanDecide] = useState(false)
+  const [playAnim, setPlayAnim] = useState(false)
 
-      
-      <div className="w-full max-w-sm flex flex-col items-center gap-8 ">
+  const message = messages[index]
+
+  // reading pause
+  useEffect(() => {
+    if (!revealed) return
+    const timer = setTimeout(() => setCanDecide(true), 5000)
+    return () => clearTimeout(timer)
+  }, [revealed])
+
+  const nextCard = () => {
+    setRevealed(false)
+    setCanDecide(false)
+    setPlayAnim(false)
+    setIndex((i) => (i + 1) % messages.length)
+  }
+
+  const handleLike = () => {
+    if (!canDecide) return
+    setPlayAnim(true)
+
+    setTimeout(() => {
+      nextCard()
+    }, 900)
+  }
+
+  const handleSkip = () => {
+    if (!canDecide) return
+    nextCard()
+  }
+
+  return (
+    <div className="h-screen overflow-hidden flex items-center justify-center px-4 pb-28 relative">
+
+      {/* LOTTIE HEART ANIMATION */}
+      {playAnim && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50">
+          <div className="w-40 h-40">
+            <Lottie animationData={heartAnimation} loop={false} />
+          </div>
+        </div>
+      )}
+
+      <div className="w-full max-w-sm flex flex-col items-center gap-8">
 
         {/* CARD */}
         <div
-          className="
-            w-full
-            h-[330px]
+          onClick={() => !revealed && setRevealed(true)}
+          className={`
+            w-full h-[340px]
             rounded-2xl
-            bg-black/60
+            bg-black/70
             backdrop-blur-xl
             border border-white/10
-            shadow-[inset_0_0_8px_rgba(255,255,255,0.05)]
+            shadow-[inset_0_0_12px_rgba(196,181,253,0.15)]
             px-5 py-4
             flex flex-col
-            mt-5
-          "
+            transition
+            ${!revealed ? "cursor-pointer" : ""}
+          `}
         >
-          <div className="text-right text-sm text-gray-400 mb-2 shrink-0">
-            @silent_reader
+          {/* USER */}
+          <div className="text-right text-sm text-white/50 mb-2">
+            {message.user}
           </div>
 
+          {/* MESSAGE */}
           <div
-            className="
-              flex-1
-              overflow-y-auto
-              text-white
-              text-lg
-              leading-relaxed
-              text-center
-              pr-1
-            "
+            className={`
+              flex-1 overflow-y-auto
+              text-lg leading-relaxed text-center pr-1
+              transition-all duration-500
+              ${
+                revealed
+                  ? "text-white blur-0"
+                  : "text-white/30 blur-sm select-none"
+              }
+            `}
           >
-            दिनों मापलों के आदेशों ने  
-            क्यू क्यू अव्यविन्नता यादें हैं गम  
-
-            <br /><br />
-            यह टेक्स्ट 500 से 1000 शब्द का हो सकता है।
-            कार्ड की height नहीं बदलेगी।
-            सिर्फ यही हिस्सा scroll होगा।
-            पूरा page कभी scroll नहीं करेगा।
+            {message.text}
           </div>
+
+          {!revealed && (
+            <div className="mt-4 text-center text-sm text-white/40">
+              Tap to read
+            </div>
+          )}
+
+          {revealed && !canDecide && (
+            <div className="mt-4 text-center text-sm text-white/40">
+              Take your time
+            </div>
+          )}
         </div>
 
-        {/* ACTION BUTTONS */}
-        <div className="flex items-center gap-20">
-          <button className="text-white/70 hover:text-white transition">
-            <X size={28} />
+        {/* ACTIONS */}
+        <div className="flex items-center gap-24">
+          <button
+            disabled={!canDecide}
+            onClick={handleSkip}
+            className={`
+              w-14 h-14 rounded-full
+              flex items-center justify-center
+              transition
+              ${
+                canDecide
+                  ? "bg-white/5 text-white/70 hover:bg-white/10"
+                  : "bg-white/5 text-white/30"
+              }
+            `}
+          >
+            <X size={26} />
           </button>
 
-          <button className="text-red-500 hover:scale-110 transition">
-            <Heart size={32} fill="currentColor" />
+          <button
+            disabled={!canDecide}
+            onClick={handleLike}
+            className={`
+              w-16 h-16 rounded-full
+              flex items-center justify-center
+              transition
+              ${
+                canDecide
+                  ? "bg-red-500/10 text-red-500 hover:scale-110"
+                  : "bg-red-500/5 text-red-500/40"
+              }
+            `}
+          >
+            <Heart size={30} fill="currentColor" />
           </button>
         </div>
 
