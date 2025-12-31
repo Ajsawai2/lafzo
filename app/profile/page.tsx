@@ -1,32 +1,12 @@
 "use client"
 
-import {Gift, Pencil, Lock, Sun, Moon } from "lucide-react"
+import { Gift, Pencil, Lock } from "lucide-react"
 import Link from "next/link"
-import { useEffect, useState } from "react"
-
 
 export default function ProfilePage() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark")
-
-  // load theme
-  useEffect(() => {
-    const saved = localStorage.getItem("lafzo-theme") as "dark" | "light"
-    if (saved) setTheme(saved)
-  }, [])
-
-  // apply theme
-  useEffect(() => {
-    document.documentElement.classList.toggle("light", theme === "light")
-    localStorage.setItem("lafzo-theme", theme)
-  }, [theme])
-
   return (
-    <main
-      className={`
-        relative min-h-screen px-6 pt-24 pb-32
-        ${theme === "light" ? "bg-white text-black" : "bg-black text-white"}
-      `}
-    >
+    <main className="relative min-h-screen bg-black text-white px-6 pt-24 pb-32">
+
       {/* PROFILE HEADER */}
       <section className="flex flex-col items-center gap-6">
         {/* AVATAR */}
@@ -41,7 +21,7 @@ export default function ProfilePage() {
           @silent_reader
         </h1>
 
-        <p className="text-base opacity-60">
+        <p className="text-base text-white/60">
           He • 26
         </p>
       </section>
@@ -80,55 +60,73 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      {/* SETTINGS */}
-      <section className="mt-14 space-y-8">
+      {/* SETTINGS CARD */}
+      <section className="mt-14">
+        <div
+          className="
+            relative rounded-2xl
+            bg-white/5
+            border border-white/10
+            backdrop-blur-xl
+            px-5 py-4
+            space-y-1
+            shadow-[inset_0_0_30px_rgba(196,181,253,0.12)]
+          "
+        >
+          {/* CORNER GLOW */}
+          <div className="pointer-events-none absolute -top-6 -left-6 w-24 h-24 bg-[#C4B5FD]/20 blur-3xl rounded-full" />
+          <div className="pointer-events-none absolute -bottom-6 -right-6 w-24 h-24 bg-[#C4B5FD]/15 blur-3xl rounded-full" />
 
-        {/* PRIVACY */}
-        <Link href="/profile/privacy">
-          <SettingItem
-            label="Privacy"
-            icon={<Lock size={18} className="text-[#C4B5FD]" />}
-          />
-        </Link>
+          <Link href="/profile/privacy">
+            <SettingRow
+              label="Privacy"
+              icon={<Lock size={18} className="text-[#C4B5FD]" />}
+            />
+          </Link>
 
-        {/* THEME TOGGLE */}
-       <Link href="/rewards">
-  <SettingItem
-    label="Rewards"
-    icon={<Gift size={18} className="text-[#C4B5FD]" />}
-  />
-</Link>
+          <Link href="/rewards">
+            <SettingRow
+              label="Rewards"
+              icon={<Gift size={18} className="text-[#C4B5FD]" />}
+            />
+          </Link>
 
+          <div className="my-2 h-px bg-white/10" />
 
-        {/* SIGN OUT */}
-        <SettingItem label="Sign Out" danger />
+          <SettingRow label="Sign Out" danger />
+        </div>
       </section>
+
     </main>
   )
 }
 
 /* SETTINGS ROW */
-function SettingItem({
+function SettingRow({
   label,
   icon,
-  action,
   danger = false,
 }: {
   label: string
   icon?: React.ReactNode
-  action?: React.ReactNode
   danger?: boolean
 }) {
   return (
-    <div className="flex items-center justify-between text-lg">
+    <button
+      className="
+        w-full flex items-center justify-between
+        py-3 rounded-lg
+        hover:bg-white/5 transition
+      "
+    >
       <div className="flex items-center gap-3">
         {icon}
-        <span className={danger ? "text-red-500" : "opacity-90"}>
+        <span className={danger ? "text-red-500" : "text-white/90"}>
           {label}
         </span>
       </div>
 
-      {action ? action : (!danger && <span className="opacity-40 text-xl">›</span>)}
-    </div>
+      {!danger && <span className="text-white/40 text-xl">›</span>}
+    </button>
   )
 }
