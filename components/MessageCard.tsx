@@ -12,7 +12,7 @@ export default function MessageCard() {
         <div
           className="
             w-full
-            h-[520px]
+            h-[350px]
             rounded-2xl
             bg-black/60
             backdrop-blur-xl
